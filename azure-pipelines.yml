@@ -1,19 +1,26 @@
 trigger:
-- master 
+- master
+
+pool:
+  vmImage: windows-latest
+
+variables:
+  buildConfiguration: 'Release'
+
 
 steps:
-# Prepare Analysis Configuration task
-- task: SonarQubePrepare@5
-  inputs:
-    SonarQube: 'ServiceConnectionAzureSonar'
-    scannerMode: 'MSBuild'
-    projectKey: 'MyTokenName'
-    projectName: 'MyShuttle'
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
 
-# Run Code Analysis task
-- task: SonarQubeAnalyze@5
 
-# Publish Quality Gate Result task
-- task: SonarQubePublish@5
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish $(buildConfiguration)'  
   inputs:
-    pollingTimeoutSec: '300'
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
+
+
+- task: PublishBuildArtifacts@1
+  displayName: 'publish artifacts'
