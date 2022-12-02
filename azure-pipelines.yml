@@ -12,16 +12,16 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
+- task: SonarQubePrepare@5
+  inputs:
+    SonarQube: 'ServiceConnectionAzureSonar'
+    scannerMode: 'MSBuild'
+    projectKey: 'MyTokenName'
+    projectName: 'MyShuttle'
+
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dornet build $(buildConfiguration)'
-
-- task: SonarQubePrepare@5
-  inputs:
-    SonarQube: 'ServiceSonarConections'
-    scannerMode: 'MSBuild'
-    projectKey: 'SimpleGbmKey'
-    projectName: 'ProjectDemo'
 
 
 - task: DotNetCoreCLI@2
@@ -31,7 +31,6 @@ steps:
     publishWebProjects: True
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: True
-
 
 - task: SonarQubeAnalyze@5
 
