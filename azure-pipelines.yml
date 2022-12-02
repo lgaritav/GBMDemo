@@ -12,6 +12,12 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
+
+steps:
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+
+
 - task: SonarQubePrepare@5
   inputs:
     SonarQube: 'ServiceConnectionAzureSonar'
@@ -19,9 +25,6 @@ variables:
     projectKey: 'MyTokenName'
     projectName: 'MyShuttle'
 
-steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dornet build $(buildConfiguration)'
 
 
 - task: DotNetCoreCLI@2
