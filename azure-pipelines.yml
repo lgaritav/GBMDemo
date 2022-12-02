@@ -13,7 +13,7 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dornet build $(buildConfiguration)'
 
--task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@2
   displayName: 'dotnet publish $(buildConfiguration)'  
   inputs:
     command: publish
@@ -21,5 +21,5 @@ steps:
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: True
 
--task: PublishBuildArtifacts@1
- displayName: 'publish artifacts'
+- task: PublishBuildArtifacts@1
+  displayName: 'publish artifacts'
