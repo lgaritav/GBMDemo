@@ -16,3 +16,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.carousel{
+    perspective: 900px !important;
+    height: 280px;
+}
